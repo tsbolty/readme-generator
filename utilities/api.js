@@ -1,8 +1,3 @@
-// npm i axios
-// read axios documentation
-// use this to do an ajax call
-// look at github api (documentation)
-// 
 
 const axios = require("axios")
 require('dotenv').config()
@@ -19,5 +14,8 @@ const api = {
         })
     }
 }
+
+
+
 
 module.exports = api

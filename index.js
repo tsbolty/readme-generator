@@ -1,6 +1,10 @@
 const inquirer = require("inquirer")
 const fs = require("fs")
+const util = require("util");
 const api = require("./utilities/api")
+const generateMarkdown = require("./utilities/generateMarkdown")
+
+const writeFileAsync = util.promisify(fs.writeFile)
 
 const questions = [
     {
@@ -43,24 +47,22 @@ const questions = [
     {
         name: "tests",
         message: "What command should be run to run tests?",
-        type: "input"
+        type: "input",
+        default: "npm test"
     }
 ];
 
-// inquirer.prompt(
-//     questions
-// )
-
-function writeToFile(fileName, data) {
-    //template literals to create html elements
-}
 
 function init() {
-    inquirer.prompt(questions)
-    .then(answers => {
-        console.log(api.getUser(answers.username))
-    }).then(writeToFile(fileName, generateMarkdown()))
+    inquirer.prompt(questions).then(answers =>{
+        console.log(answers)
+        api.getUser(answers.username)
+        .then(({data}) => {
+            writeFileAsync("README.md", generateMarkdown({...answers, ...data}))
+        })
+    })
 }
 
-init();
+init()
+
 
