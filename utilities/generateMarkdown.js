@@ -2,51 +2,57 @@
 function generateProjectUrl(github, title) {
   const kebabCaseTitle = title.toLowerCase().split(" ").join("-");
   return `https://github.com/${github}/${kebabCaseTitle}`;
-}
+};
+
 function renderLicenseBadge(license, username, title) {
   if (license !== "None") {
     return `[![GitHub license](https://img.shields.io/badge/license-${license}-blue.svg)](${generateProjectUrl(username, title)})`
   }
-  return ''
-}
+  return '';
+};
+
+function renderImage(image) {
+  if (image) {
+    return `![Project Image](${image})`
+  }
+  return '';
+};
 
 function generateMarkdown(data) {
-    return `
+  return `
   # ${data.title}
   ${renderLicenseBadge(data.license, data.username, data.title)}
   
-  Description
+  ## Description
   ${data.description}
+
+  ${renderImage(data.image)}
 
   ## Table of Contents
 
-  * Installation
-  * Usage
-  * License
-  * Contributing
-  * Tests
-  * Questions
-  
+  * [Installation](#Installation)
+  * [Usage](#Usage)
+  * [License](#License)
+  * [Contributing](#Contributing)
+  * [Tests](#Tests)
+  * [Questions](#Questions)
 
-  To install necessary dependencies run the following command: ${data.installation}
-
-  Usage: 
+  ## Usage: 
   ${data.usage}
-
-  Contributing: 
+  
+  ## Contributing: 
   ${data.contributing}
   
-  To run tests, run the following command: 
+  #### To run tests, run the following command: 
   ${data.tests}
   
-  License: 
+  ## License: 
   ${data.license}
   
-  <img src="${data.avatar_url}"></img>
+  To install necessary dependencies run the following command: ${data.installation}
   
-  Creator Github account: [GitHub](${data.url})
+  Creator Github account: [GitHub](https://github.com/${data.username.toLowerCase().replace(/\s+/g, '')})
   `;
-  }
-  
-  module.exports = generateMarkdown;
-  
+}
+
+module.exports = generateMarkdown;
